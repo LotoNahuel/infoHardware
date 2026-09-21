@@ -20,7 +20,8 @@ computer.Accept(new UpdateVisitor());
 foreach (IHardware hardware in computer.Hardware)
 {
     // const salida = {$"Hardware: {hardware.Name}"};
-    if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAmd || hardware.HardwareType == HardwareType.GpuIntel)
+    // if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAmd || hardware.HardwareType == HardwareType.GpuIntel)
+    if (hardware.HardwareType == HardwareType.Cpu)
     {
         Console.WriteLine($"Hardware [{hardware.Name}]");
         Console.WriteLine($"{hardware.HardwareType}");
@@ -31,15 +32,15 @@ foreach (IHardware hardware in computer.Hardware)
             Console.WriteLine("\tSubhardware: {0}", subhardware.Name);
             
             foreach (ISensor sensor in subhardware.Sensors)
-                Console.WriteLine("\t\tSensor: {0}, value: {1}, is: {2}", sensor.Name, sensor.Value, sensor.SensorType);
+                Console.WriteLine("\t\tSensor: {0}, value: {1}, is: {2}", sensor.Name, sensor.Value ?? 0, sensor.SensorType);
         }
 
         foreach (ISensor sensor in hardware.Sensors)
         {
-            if (sensor.SensorType == SensorType.Temperature)
-            {
-                Console.WriteLine("\tSensor: {0}, value: {1}°, Type: {2}", sensor.Name, sensor.Value, sensor.SensorType);
-            }
+            // if (sensor.SensorType == SensorType.Temperature)
+            // {
+                Console.WriteLine("\tSensor: {0}, value: {1}, Type: {2}", sensor.Name, sensor.Value ?? 0, sensor.SensorType);
+            // }
         }
         break;
     }

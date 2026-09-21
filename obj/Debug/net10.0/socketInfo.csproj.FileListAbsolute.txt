@@ -61,3 +61,4 @@ C:\Users\Loto_\Downloads\COSAS\PROGRAMACION\socketInfo\bin\Debug\net10.0\runtime
 C:\Users\Loto_\Downloads\COSAS\PROGRAMACION\socketInfo\bin\Debug\net10.0\runtimes\win\lib\net10.0\System.IO.Ports.dll
 C:\Users\Loto_\Downloads\COSAS\PROGRAMACION\socketInfo\bin\Debug\net10.0\runtimes\win\lib\net10.0\System.Management.dll
 C:\Users\Loto_\Downloads\COSAS\PROGRAMACION\socketInfo\obj\Debug\net10.0\socketInfo.csproj.Up2Date
+C:\Users\Loto_\Downloads\COSAS\PROGRAMACION\socketInfo\obj\Debug\net10.0\socketInfo.sourcelink.json
