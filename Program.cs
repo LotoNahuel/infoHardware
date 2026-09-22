@@ -33,14 +33,26 @@ foreach (IHardware hardware in computer.Hardware)
             Console.WriteLine("\tSubhardware: {0}", subhardware.Name);
             
             foreach (ISensor sensor in subhardware.Sensors)
+            {
+                Console.WriteLine("\t-------------------------------------------------------------------------");
                 Console.WriteLine("\t\tSensor: {0}, value: {1}, is: {2}", sensor.Name, sensor.Value ?? 0, sensor.SensorType);
+            }
         }
 
         foreach (ISensor sensor in hardware.Sensors)
         {
             if (sensor.SensorType == SensorType.Temperature)
             {
-                Console.WriteLine($"\tSensor: {sensor.Name}, value: {sensor.Value.Value:F1}, Type: {sensor.SensorType}");
+                if (sensor.Value.HasValue)
+                {
+                    Console.WriteLine("\t-------------------------------------------------------------------------");
+                    Console.WriteLine($"\tSensor: {sensor.Name}\n\t\tValue: {sensor.Value.Value:F1}\n\t\tType: {sensor.SensorType}");
+                }
+                else
+                {
+                    Console.WriteLine("\t-------------------------------------------------------------------------");
+                    Console.WriteLine($"\tSensor: {sensor.Name}\n\t\tValue: NO HAY VALOR\n\t\tType: {sensor.SensorType}");
+                }
             }
         }
         break;
