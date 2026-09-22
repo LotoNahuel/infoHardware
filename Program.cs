@@ -17,47 +17,59 @@ Computer computer = new Computer
 computer.Open();
 computer.Accept(new UpdateVisitor());
 
-foreach (IHardware hardware in computer.Hardware)
+while (true)
 {
-    hardware.Update();
-    // const salida = {$"Hardware: {hardware.Name}"};
-    if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAmd || hardware.HardwareType == HardwareType.GpuIntel || hardware.HardwareType == HardwareType.Cpu)
-    // if (hardware.HardwareType == HardwareType.Cpu)
+    foreach (IHardware hardware in computer.Hardware)
     {
-        Console.WriteLine($"Hardware [{hardware.Name}]");
-        Console.WriteLine($"{hardware.HardwareType}");
-        // Console.WriteLine("Hardware: {0}", hardware.Name);
-
-        foreach (IHardware subhardware in hardware.SubHardware)
+        hardware.Update();
+        // const salida = {$"Hardware: {hardware.Name}"};
+        if (
+            hardware.HardwareType == HardwareType.GpuNvidia ||
+            hardware.HardwareType == HardwareType.GpuAmd ||
+            hardware.HardwareType == HardwareType.GpuIntel ||
+            hardware.HardwareType == HardwareType.Cpu
+        )
         {
-            Console.WriteLine("\tSubhardware: {0}", subhardware.Name);
-            
-            foreach (ISensor sensor in subhardware.Sensors)
-            {
-                Console.WriteLine("\t-------------------------------------------------------------------------");
-                Console.WriteLine("\t\tSensor: {0}, value: {1}, is: {2}", sensor.Name, sensor.Value ?? 0, sensor.SensorType);
-            }
-        }
+            Console.WriteLine($"\nHardware [{hardware.Name}]");
+            Console.WriteLine($"{hardware.HardwareType}");
+            // Console.WriteLine("Hardware: {0}", hardware.Name);
 
-        foreach (ISensor sensor in hardware.Sensors)
-        {
-            if (sensor.SensorType == SensorType.Temperature)
+            foreach (IHardware subhardware in hardware.SubHardware)
             {
-                if (sensor.Value.HasValue)
+                Console.WriteLine("\tSubhardware: {0}", subhardware.Name);
+                
+                foreach (ISensor sensor in subhardware.Sensors)
                 {
                     Console.WriteLine("\t-------------------------------------------------------------------------");
-                    Console.WriteLine($"\tSensor: {sensor.Name}\n\t\tValue: {sensor.Value.Value:F1}\n\t\tType: {sensor.SensorType}");
-                }
-                else
-                {
-                    Console.WriteLine("\t-------------------------------------------------------------------------");
-                    Console.WriteLine($"\tSensor: {sensor.Name}\n\t\tValue: NO HAY VALOR\n\t\tType: {sensor.SensorType}");
+                    Console.WriteLine("\t\tSensor: {0}, value: {1}, is: {2}", sensor.Name, sensor.Value ?? 0, sensor.SensorType);
                 }
             }
+            foreach (ISensor sensor in hardware.Sensors)
+            {
+                hardware.Update();
+                if (sensor.SensorType == SensorType.Temperature)
+                {
+                    if (sensor.Value.HasValue)
+                    {
+                        string temperature = $"{sensor.Value:F1}";
+                        Console.WriteLine("\t-------------------------------------------------------------------------");
+                        Console.WriteLine($"\tSensor: {sensor.Name}\n\t\tValue: {temperature}\n\t\tType: {sensor.SensorType}");
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("\t-------------------------------------------------------------------------");
+                        Console.WriteLine($"\tSensor: {sensor.Name}\n\t\tValue: NO HAY VALOR\n\t\tType: {sensor.SensorType}");
+                    }
+                }
+                
+            }
+            // break;
         }
-        break;
     }
+    Thread.Sleep(500);
 }
+
 
 computer.Close();
 
