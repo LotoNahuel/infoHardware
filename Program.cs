@@ -19,9 +19,10 @@ computer.Accept(new UpdateVisitor());
 
 foreach (IHardware hardware in computer.Hardware)
 {
+    hardware.Update();
     // const salida = {$"Hardware: {hardware.Name}"};
-    // if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAmd || hardware.HardwareType == HardwareType.GpuIntel)
-    if (hardware.HardwareType == HardwareType.Cpu)
+    if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAmd || hardware.HardwareType == HardwareType.GpuIntel || hardware.HardwareType == HardwareType.Cpu)
+    // if (hardware.HardwareType == HardwareType.Cpu)
     {
         Console.WriteLine($"Hardware [{hardware.Name}]");
         Console.WriteLine($"{hardware.HardwareType}");
@@ -37,10 +38,10 @@ foreach (IHardware hardware in computer.Hardware)
 
         foreach (ISensor sensor in hardware.Sensors)
         {
-            // if (sensor.SensorType == SensorType.Temperature)
-            // {
-                Console.WriteLine("\tSensor: {0}, value: {1}, Type: {2}", sensor.Name, sensor.Value ?? 0, sensor.SensorType);
-            // }
+            if (sensor.SensorType == SensorType.Temperature)
+            {
+                Console.WriteLine($"\tSensor: {sensor.Name}, value: {sensor.Value.Value:F1}, Type: {sensor.SensorType}");
+            }
         }
         break;
     }
