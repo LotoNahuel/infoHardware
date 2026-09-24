@@ -1,93 +1,106 @@
 ﻿using LibreHardwareMonitor.Hardware;
+using LibreHardwareMonitor.Interop.PowerMonitor;
 
 Console.WriteLine("LibreHadwareLib Importado Correctamente;");
 
-Computer computer = new Computer
-{
-    IsCpuEnabled = true,
-    IsGpuEnabled = true,
-    IsMemoryEnabled = true,
-    IsMotherboardEnabled = true,
-    IsControllerEnabled = true,
-    IsNetworkEnabled = true,
-    IsStorageEnabled = true,
-	IsPowerMonitorEnabled = true,
-};
 
-computer.Open();
-computer.Accept(new UpdateVisitor());
 
 // while (true)
 // {
-foreach (IHardware hardware in computer.Hardware)
+public class get_sensors
 {
-    hardware.Update();
-    Dictionary<string, List<(string nameHardware, string nameSensor, string valueSensor, string typeSensor)>> data_hardware = new();
-    if (
-        hardware.HardwareType == HardwareType.GpuNvidia ||
-        hardware.HardwareType == HardwareType.GpuAmd ||
-        hardware.HardwareType == HardwareType.GpuIntel ||
-        hardware.HardwareType == HardwareType.Cpu
-    )
+    static Dictionary Main()
     {
-        // Console.WriteLine($"\nHardware [{hardware.Name}]");
-        // Console.WriteLine($"{hardware.HardwareType}");
-        // // Console.WriteLine("Hardware: {0}", hardware.Name);
+        Computer computer = new Computer
+        {
+            IsCpuEnabled = true,
+            IsGpuEnabled = true,
+            IsMemoryEnabled = true,
+            IsMotherboardEnabled = true,
+            IsControllerEnabled = true,
+            IsNetworkEnabled = true,
+            IsStorageEnabled = true,
+            IsPowerMonitorEnabled = true,
+        };
 
-        // foreach (IHardware subhardware in hardware.SubHardware)
-        // {
-        //     Console.WriteLine("\tSubhardware: {0}", subhardware.Name);
-            
-        //     foreach (ISensor sensor in subhardware.Sensors)
-        //     {
-        //         Console.WriteLine("\t-------------------------------------------------------------------------");
-        //         Console.WriteLine("\t\tSensor: {0}, value: {1}, is: {2}", sensor.Name, sensor.Value ?? 0, sensor.SensorType);
-        //     }
-        // }
+        computer.Open();
+        computer.Accept(new UpdateVisitor());
+
+        Dictionary<string, List<(string nameHardware, string nameSensor, string typeSensor)>> data_hardware = new();
         
-        hardware.Update();
-        
-        foreach (ISensor sensor in hardware.Sensors)
+        foreach (IHardware hardware in computer.Hardware)
         {
-            if (sensor.Value.HasValue)
+            hardware.Update();
+            if (
+                hardware.HardwareType == HardwareType.GpuNvidia ||
+                hardware.HardwareType == HardwareType.GpuAmd ||
+                hardware.HardwareType == HardwareType.GpuIntel ||
+                hardware.HardwareType == HardwareType.Cpu
+            )
             {
-                string key = $"{hardware.HardwareType}";
-                string name_sensor = sensor.Name;
-                int i = 1;
-                while (data_hardware.ContainsKey(name_sensor))
-                {
-                    name_sensor = $"{sensor.Name} [{i}]";
-                    i ++;
-                }
-                if (!data_hardware.ContainsKey(key))
-                {
-                    data_hardware[key] = new List<(string, string, string, string)>();
-                }
-                data_hardware[key].Add(
-                    (
-                        $"{hardware.Name}",
-                        $"{sensor.Name}",
-                        $"{sensor.Value:F1}",
-                        $"{sensor.SensorType}"
-                    )
-                );
-            }
-            
-        }
-        foreach (var key in data_hardware.Keys)
-        {
-            Console.Write($"\n{key}");
-            foreach (var sensor in data_hardware[key])
-            {
-                Console.WriteLine($"\nHardware: {sensor.nameHardware}");
-                Console.WriteLine("\t-------------------------------------------------------------------------");
-                Console.WriteLine($"\tSensor: {sensor.nameSensor} \n\t\tValor: {sensor.valueSensor} \n\t\tType Sensor: {sensor.typeSensor}");
-                Console.WriteLine("\t-------------------------------------------------------------------------");
+                // Console.WriteLine($"\nHardware [{hardware.Name}]");
+                // Console.WriteLine($"{hardware.HardwareType}");
+                // // Console.WriteLine("Hardware: {0}", hardware.Name);
+
+                // foreach (IHardware subhardware in hardware.SubHardware)
+                // {
+                //     Console.WriteLine("\tSubhardware: {0}", subhardware.Name);
+                    
+                //     foreach (ISensor sensor in subhardware.Sensors)
+                //     {
+                //         Console.WriteLine("\t-------------------------------------------------------------------------");
+                //         Console.WriteLine("\t\tSensor: {0}, value: {1}, is: {2}", sensor.Name, sensor.Value ?? 0, sensor.SensorType);
+                //     }
+                // }
                 
+                hardware.Update();
+                
+                foreach (ISensor sensor in hardware.Sensors)
+                {
+                    if (sensor.Value.HasValue)
+                    {
+                        string key = $"{hardware.HardwareType}";
+                        string name_sensor = sensor.Name;
+                        int i = 1;
+                        while (data_hardware.ContainsKey(name_sensor))
+                        {
+                            name_sensor = $"{sensor.Name} [{i}]";
+                            i ++;
+                        }
+                        if (!data_hardware.ContainsKey(key))
+                        {
+                            data_hardware[key] = new List<(string, string, string)>();
+                        }
+                        data_hardware[key].Add(
+                            (
+                                $"{hardware.Name}",
+                                $"{sensor.Name}",
+                                $"{sensor.SensorType}"
+                            )
+                        );
+                    }
+                    
+                }
+
+                return data_hardware
+
+                foreach (var key in data_hardware.Keys)
+                {
+                    Console.Write($"\n{key}");
+                    foreach (var sensor in data_hardware[key])
+                    {
+                        Console.WriteLine($"\nHardware: {sensor.nameHardware}");
+                        Console.WriteLine("\t-------------------------------------------------------------------------");
+                        Console.WriteLine($"\tSensor: {sensor.nameSensor} \n\t\tType Sensor: {sensor.typeSensor}");
+                        Console.WriteLine("\t-------------------------------------------------------------------------");
+                        
+                    }
+                    Console.WriteLine($"LARGO: {data_hardware[key].Count}");
+                }
             }
-            Console.WriteLine($"LARGO: {data_hardware[key].Count}");
-        }
+        } 
     }
+    
 }
     // Thread.Sleep(1000);
     // computer.Close();
