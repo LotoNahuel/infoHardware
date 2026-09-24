@@ -1,17 +1,18 @@
-﻿using LibreHardwareMonitor.Hardware;
+﻿using System.Reflection.Metadata;
+using LibreHardwareMonitor.Hardware;
 using LibreHardwareMonitor.Interop.PowerMonitor;
-
-Console.WriteLine("LibreHadwareLib Importado Correctamente;");
-
-
 
 // while (true)
 // {
+// var miClase = new MiClase();
+// miClase.Test();
 
-public class MiClase()
+namespace exportHardwareSensors
 {
-    public Dictionary<string, List<(string nameHardware, string nameSensor, string typeSensor)>> get_sensors()
+    public class hardwareSensors
     {
+        public Dictionary<string, List<(string nameHardware, string nameSensor, string typeSensor)>> GetSensors()
+        {
             Computer computer = new Computer
             {
                 IsCpuEnabled = true,
@@ -28,7 +29,7 @@ public class MiClase()
             computer.Accept(new UpdateVisitor());
 
             Dictionary<string, List<(string nameHardware, string nameSensor, string typeSensor)>> data_hardware = new();
-            
+
             foreach (IHardware hardware in computer.Hardware)
             {
                 hardware.Update();
@@ -39,8 +40,8 @@ public class MiClase()
                     hardware.HardwareType == HardwareType.Cpu
                 )
                 {
-                    Console.WriteLine($"\nHardware [{hardware.Name}]");
-                    Console.WriteLine($"{hardware.HardwareType}");
+                    // Console.WriteLine($"\nHardware [{hardware.Name}]");
+                    // Console.WriteLine($"{hardware.HardwareType}");
                     // Console.WriteLine("Hardware: {0}", hardware.Name);
 
                     foreach (IHardware subhardware in hardware.SubHardware)
@@ -58,21 +59,20 @@ public class MiClase()
                     
                     foreach (ISensor sensor in hardware.Sensors)
                     {
-                        if (sensor.Value.HasValue)
+                        string key = $"{hardware.HardwareType}";
+                        string name_sensor = sensor.Name;
+                        int i = 1;
+                        while (data_hardware.ContainsKey(name_sensor))
                         {
-                            string key = $"{hardware.HardwareType}";
-                            string name_sensor = sensor.Name;
-                            int i = 1;
-                            while (data_hardware.ContainsKey(name_sensor))
-                            {
-                                name_sensor = $"{sensor.Name} [{i}]";
-                                i ++;
-                            }
-                            if (!data_hardware.ContainsKey(key))
-                            {
-                                data_hardware[key] = new List<(string, string, string)>();
-                            }
-
+                            name_sensor = $"{sensor.Name} [{i}]";
+                            i ++;
+                        }
+                        if (!data_hardware.ContainsKey(key))
+                        {
+                            data_hardware[key] = new List<(string, string, string)>();
+                        }
+                        else
+                        {
                             data_hardware[key].Add(
                                 (
                                     $"{hardware.Name}",
@@ -81,34 +81,49 @@ public class MiClase()
                                 )
                             );
                         }
-                        
                     }
 
-                    foreach (var key in data_hardware.Keys)
-                    {
-                        Console.Write($"\n{key}");
-                        foreach (var sensor in data_hardware[key])
-                        {
-                            Console.WriteLine($"\nHardware: {sensor.nameHardware}");
-                            Console.WriteLine("\t-------------------------------------------------------------------------");
-                            Console.WriteLine($"\tSensor: {sensor.nameSensor} \n\t\tType Sensor: {sensor.typeSensor}");
-                            Console.WriteLine("\t-------------------------------------------------------------------------");
+                    // foreach (var key in data_hardware.Keys)
+                    // {
+                    //     Console.Write($"\n{key}");
+                    //     foreach (var sensor in data_hardware[key])
+                    //     {
+                    //         Console.WriteLine($"\nHardware: {sensor.nameHardware}");
+                    //         Console.WriteLine("\t-------------------------------------------------------------------------");
+                    //         Console.WriteLine($"\tSensor: {sensor.nameSensor} \n\t\tType Sensor: {sensor.typeSensor}");
+                    //         Console.WriteLine("\t-------------------------------------------------------------------------");
                             
-                        }
-                        Console.WriteLine($"LARGO: {data_hardware[key].Count}");
-                    }
-
-                    return data_hardware;
+                    //     }
+                    //     Console.WriteLine($"LARGO: {data_hardware[key].Count}");
+                    // }
                 }
-            } 
+                // else
+                // {
+                //     computer.Close();
+                //     throw new Exception($"Valor de Hardware inválido: {hardware.HardwareType}");
+                //     // return data_hardware;
+                // }
+            }
+            return data_hardware;
+        }
+        // public void Test()
+        // {
+        //     var data = GetSensors();
+
+        //     foreach (var key in data.Keys)
+        //     {
+        //         foreach (var sensor in data[key])
+        //         {
+        //             Console.WriteLine($"{key}");
+        //             Console.WriteLine($"{sensor.nameHardware}: {sensor.nameSensor}");
+        //         }
+        //     }
         // }
-        
     }
+        // Thread.Sleep(1000);
+    // }
 }
 
-    // Thread.Sleep(1000);
-    // computer.Close();
-// }
 
 public class UpdateVisitor : IVisitor
 {
@@ -125,3 +140,4 @@ public class UpdateVisitor : IVisitor
 
     public void VisitParameter(IParameter parameter) { }
 }
+
