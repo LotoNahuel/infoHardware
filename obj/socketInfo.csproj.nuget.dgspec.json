@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nico\\Desktop\\Tarea\\PROGRAMACION\\infoHardware\\infoHardware\\socketInfo.csproj": {}
+    "C:\\Users\\Loto_\\Downloads\\COSAS\\PROGRAMACION\\socketInfo\\socketInfo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nico\\Desktop\\Tarea\\PROGRAMACION\\infoHardware\\infoHardware\\socketInfo.csproj": {
+    "C:\\Users\\Loto_\\Downloads\\COSAS\\PROGRAMACION\\socketInfo\\socketInfo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nico\\Desktop\\Tarea\\PROGRAMACION\\infoHardware\\infoHardware\\socketInfo.csproj",
+        "projectUniqueName": "C:\\Users\\Loto_\\Downloads\\COSAS\\PROGRAMACION\\socketInfo\\socketInfo.csproj",
         "projectName": "socketInfo",
-        "projectPath": "C:\\Users\\Nico\\Desktop\\Tarea\\PROGRAMACION\\infoHardware\\infoHardware\\socketInfo.csproj",
-        "packagesPath": "C:\\Users\\Nico\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nico\\Desktop\\Tarea\\PROGRAMACION\\infoHardware\\infoHardware\\obj\\",
+        "projectPath": "C:\\Users\\Loto_\\Downloads\\COSAS\\PROGRAMACION\\socketInfo\\socketInfo.csproj",
+        "packagesPath": "C:\\Users\\Loto_\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Loto_\\Downloads\\COSAS\\PROGRAMACION\\socketInfo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Nico\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Loto_\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -24,6 +24,7 @@
         },
         "frameworks": {
           "net9.0": {
+            "framework": "net9.0",
             "targetAlias": "net9.0",
             "projectReferences": {}
           }
@@ -36,12 +37,13 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "all"
+          "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net9.0": {
+          "framework": "net9.0",
           "targetAlias": "net9.0",
           "dependencies": {
             "LibreHardwareMonitorLib": {
@@ -60,12 +62,30 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[9.0.20, 9.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[9.0.20, 9.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[9.0.20, 9.0.20]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[9.0.20, 9.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
