@@ -8,7 +8,7 @@ Console.WriteLine("LibreHadwareLib Importado Correctamente;");
 // while (true)
 // {
 
-public class Miclase()
+public class MiClase()
 {
     public Dictionary<string, List<(string nameHardware, string nameSensor, string typeSensor)>> get_sensors()
     {
@@ -62,7 +62,7 @@ public class Miclase()
                         {
                             string key = $"{hardware.HardwareType}";
                             string name_sensor = sensor.Name;
-                            const int i = 1;
+                            int i = 1;
                             while (data_hardware.ContainsKey(name_sensor))
                             {
                                 name_sensor = $"{sensor.Name} [{i}]";
