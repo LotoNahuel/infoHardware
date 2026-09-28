@@ -1,4 +1,4 @@
-﻿using System.Reflection.Metadata;
+using System.Reflection.Metadata;
 using LibreHardwareMonitor.Hardware;
 using LibreHardwareMonitor.Interop.PowerMonitor;
 
@@ -11,7 +11,8 @@ namespace exportHardwareSensors
 {
     public class hardwareSensors
     {
-        public Dictionary<string, List<(string nameHardware, string nameSensor, string typeSensor)>> GetSensors()
+        // public Dictionary<string, List<(string nameHardware, string nameSensor, string typeSensor)>> GetSensors()
+        public List<(string nameHardware, string nameSensosr, string typeSensor)> GetSensors()
         {
             Computer computer = new Computer
             {
@@ -20,7 +21,7 @@ namespace exportHardwareSensors
                 IsMemoryEnabled = true,
                 IsMotherboardEnabled = true,
                 IsControllerEnabled = true,
-                IsNetworkEnabled = true,
+                IsNetworkEnabled = true, 
                 IsStorageEnabled = true,
                 IsPowerMonitorEnabled = true,
             };
@@ -28,7 +29,8 @@ namespace exportHardwareSensors
             computer.Open();
             computer.Accept(new UpdateVisitor());
 
-            Dictionary<string, List<(string nameHardware, string nameSensor, string typeSensor)>> data_hardware = new();
+            // Dictionary<string, List<(string nameHardware, string nameSensor, string typeSensor)>> data_hardware = new();
+            List<(string nameHardware, string nameSensor, string typeSensor)> data_hardware = new();
 
             foreach (IHardware hardware in computer.Hardware)
             {
@@ -44,44 +46,65 @@ namespace exportHardwareSensors
                     // Console.WriteLine($"{hardware.HardwareType}");
                     // Console.WriteLine("Hardware: {0}", hardware.Name);
 
-                    foreach (IHardware subhardware in hardware.SubHardware)
-                    {
-                        Console.WriteLine("\tSubhardware: {0}", subhardware.Name);
+                    // foreach (IHardware subhardware in hardware.SubHardware)
+                    // {
+                    //     Console.WriteLine("\tSubhardware: {0}", subhardware.Name);
                         
-                        foreach (ISensor sensor in subhardware.Sensors)
-                        {
-                            Console.WriteLine("\t-------------------------------------------------------------------------");
-                            Console.WriteLine("\t\tSensor: {0}, value: {1}, is: {2}", sensor.Name, sensor.Value ?? 0, sensor.SensorType);
-                        }
-                    }
+                    //     foreach (ISensor sensor in subhardware.Sensors)
+                    //     {
+                    //         Console.WriteLine("\t-------------------------------------------------------------------------");
+                    //         Console.WriteLine("\t\tSensor: {0}, value: {1}, is: {2}", sensor.Name, sensor.Value ?? 0, sensor.SensorType);
+                    //     }
+                    // }
                     
                     hardware.Update();
                     
                     foreach (ISensor sensor in hardware.Sensors)
                     {
-                        string key = $"{hardware.HardwareType}";
-                        string name_sensor = sensor.Name;
-                        int i = 1;
-                        while (data_hardware.ContainsKey(name_sensor))
-                        {
-                            name_sensor = $"{sensor.Name} [{i}]";
-                            i ++;
-                        }
-                        if (!data_hardware.ContainsKey(key))
-                        {
-                            data_hardware[key] = new List<(string, string, string)>();
-                        }
-                        else
-                        {
-                            data_hardware[key].Add(
-                                (
-                                    $"{hardware.Name}",
-                                    $"{sensor.Name}",
-                                    $"{sensor.SensorType}"
-                                )
-                            );
-                        }
+                        data_hardware.Add(
+                            (
+                                $"{hardware.Name}",
+                                $"{sensor.Name}",
+                                $"{sensor.SensorType}"
+                            )
+                        );
+                        // string key = $"{hardware.HardwareType}";
+                        // string name_sensor = sensor.Name;
+                        // int i = 1;
+                        // while (data_hardware.ContainsKey(name_sensor))
+                        // {
+                        //     name_sensor = $"{sensor.Name} [{i}]";
+                        //     i ++;
+                        // }
+                        // if (!data_hardware.ContainsKey(key))
+                        // {
+                        //     data_hardware[key] = new List<(string, string, string)>();
+                        // }
+                        // else
+                        // {
+                        //     data_hardware[key].Add(
+                        //         (
+                        //             $"{hardware.Name}",
+                        //             $"{sensor.Name}",
+                        //             $"{sensor.SensorType}"
+                        //         )
+                        //     );
+                        // }
+                        // if (sensor)
+                        // {
+                        
+                        // }
+                        // else
+                        // {
+                        //     break;
+                        // }
+
                     }
+
+                    // foreach (var value in data_hardware)
+                    // {
+                    //     Console.WriteLine($"{value.nameHardware} , {value.nameSensor}, {value.typeSensor}");
+                    // }
 
                     // foreach (var key in data_hardware.Keys)
                     // {
@@ -106,22 +129,66 @@ namespace exportHardwareSensors
             }
             return data_hardware;
         }
-        // public void Test()
-        // {
-        //     var data = GetSensors();
-
-        //     foreach (var key in data.Keys)
-        //     {
-        //         foreach (var sensor in data[key])
-        //         {
-        //             Console.WriteLine($"{key}");
-        //             Console.WriteLine($"{sensor.nameHardware}: {sensor.nameSensor}");
-        //         }
-        //     }
-        // }
     }
         // Thread.Sleep(1000);
     // }
+}
+
+namespace exportValueHardwareSensors
+{
+    public class valueSensors
+    {
+        public string GetValueSensors(string dataSensor)
+        {
+            Computer computer = new Computer
+            {
+                IsCpuEnabled = true,
+                IsGpuEnabled = true,
+                IsMemoryEnabled = true,
+                IsMotherboardEnabled = true,
+                IsControllerEnabled = true,
+                IsNetworkEnabled = true,
+                IsStorageEnabled = true,
+                IsPowerMonitorEnabled = true,
+            };
+
+            computer.Open();
+            computer.Accept(new UpdateVisitor());
+
+            Console.WriteLine($"Data import.cs: {dataSensor}");
+
+            foreach (IHardware hardware in computer.Hardware)
+            {
+                hardware.Update();
+                foreach (ISensor sensor in hardware.Sensors)
+                {
+                    if (sensor.Name == dataSensor)
+                    {
+                        
+                        if (sensor.Value.HasValue)
+                        {
+                            string valorSensor = $"{sensor.Value:F1}";
+                            return valorSensor;
+                        }
+                        
+                    }
+                    // foreach (var value in dataSensor)
+                    // {
+                    //     if (sensor.Name == value.nameHardware)
+                    //     {
+                    //         const valorSensor = $"{sensor.Value:F1}";
+                    //         return valorSensor;
+                    //     }
+                    //     else
+                    //     {
+                    //         return "Null";
+                    //     }
+                    // }
+                }
+            }
+            return "N/A";
+        }
+    }
 }
 
 
@@ -140,4 +207,3 @@ public class UpdateVisitor : IVisitor
 
     public void VisitParameter(IParameter parameter) { }
 }
-
