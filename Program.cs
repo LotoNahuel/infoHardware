@@ -1,4 +1,4 @@
-using System.Reflection.Metadata;
+﻿using System.Reflection.Metadata;
 using LibreHardwareMonitor.Hardware;
 using LibreHardwareMonitor.Interop.PowerMonitor;
 
@@ -11,7 +11,6 @@ namespace exportHardwareSensors
 {
     public class hardwareSensors
     {
-        // public Dictionary<string, List<(string nameHardware, string nameSensor, string typeSensor)>> GetSensors()
         public List<(string nameHardware, string nameSensosr, string typeSensor)> GetSensors()
         {
             Computer computer = new Computer
@@ -68,64 +67,8 @@ namespace exportHardwareSensors
                                 $"{sensor.SensorType}"
                             )
                         );
-                        // string key = $"{hardware.HardwareType}";
-                        // string name_sensor = sensor.Name;
-                        // int i = 1;
-                        // while (data_hardware.ContainsKey(name_sensor))
-                        // {
-                        //     name_sensor = $"{sensor.Name} [{i}]";
-                        //     i ++;
-                        // }
-                        // if (!data_hardware.ContainsKey(key))
-                        // {
-                        //     data_hardware[key] = new List<(string, string, string)>();
-                        // }
-                        // else
-                        // {
-                        //     data_hardware[key].Add(
-                        //         (
-                        //             $"{hardware.Name}",
-                        //             $"{sensor.Name}",
-                        //             $"{sensor.SensorType}"
-                        //         )
-                        //     );
-                        // }
-                        // if (sensor)
-                        // {
-                        
-                        // }
-                        // else
-                        // {
-                        //     break;
-                        // }
-
                     }
-
-                    // foreach (var value in data_hardware)
-                    // {
-                    //     Console.WriteLine($"{value.nameHardware} , {value.nameSensor}, {value.typeSensor}");
-                    // }
-
-                    // foreach (var key in data_hardware.Keys)
-                    // {
-                    //     Console.Write($"\n{key}");
-                    //     foreach (var sensor in data_hardware[key])
-                    //     {
-                    //         Console.WriteLine($"\nHardware: {sensor.nameHardware}");
-                    //         Console.WriteLine("\t-------------------------------------------------------------------------");
-                    //         Console.WriteLine($"\tSensor: {sensor.nameSensor} \n\t\tType Sensor: {sensor.typeSensor}");
-                    //         Console.WriteLine("\t-------------------------------------------------------------------------");
-                            
-                    //     }
-                    //     Console.WriteLine($"LARGO: {data_hardware[key].Count}");
-                    // }
                 }
-                // else
-                // {
-                //     computer.Close();
-                //     throw new Exception($"Valor de Hardware inválido: {hardware.HardwareType}");
-                //     // return data_hardware;
-                // }
             }
             return data_hardware;
         }
@@ -164,26 +107,12 @@ namespace exportValueHardwareSensors
                 {
                     if (sensor.Name == dataSensor)
                     {
-                        
                         if (sensor.Value.HasValue)
                         {
                             string valorSensor = $"{sensor.Value:F1}";
                             return valorSensor;
                         }
-                        
                     }
-                    // foreach (var value in dataSensor)
-                    // {
-                    //     if (sensor.Name == value.nameHardware)
-                    //     {
-                    //         const valorSensor = $"{sensor.Value:F1}";
-                    //         return valorSensor;
-                    //     }
-                    //     else
-                    //     {
-                    //         return "Null";
-                    //     }
-                    // }
                 }
             }
             return "N/A";
